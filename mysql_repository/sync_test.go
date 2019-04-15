@@ -34,9 +34,9 @@ func Test_getUpsert(t *testing.T) {
 		t.Fatalf("faile %#v", err)
 	}
 
-	if !strings.Contains(insert, "(`id`, `user_id`, `title`, `body`, `deleted`)") ||
-		!strings.Contains(insert, `('1', '1', 'post 1', '{json": ["rigid"]}', NULL)`) ||
-		!strings.Contains(insert, "`id`='2'") {
+	if !strings.Contains(insert[0], "(`id`, `user_id`, `title`, `body`, `deleted`)") ||
+		!strings.Contains(insert[0], `('1', '1', 'post 1', '{json": ["rigid"]}', NULL)`) ||
+		!strings.Contains(insert[0], "`id`='1'") {
 		t.Fatalf("failed test %#v", insert)
 	}
 }
