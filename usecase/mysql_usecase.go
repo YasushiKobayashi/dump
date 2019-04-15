@@ -66,7 +66,7 @@ func (i *MysqlInterActor) Upload(param *models.Param) (err error) {
 		query := mysql.GetQuery(param.Type)
 		err := i.AwsS3Repository.Upload(query, param.Path, param.AwsS3)
 		if err != nil {
-			return errors.Wrap(err, "i.LocalRepository.Upload error")
+			return errors.Wrap(err, "i.AwsS3Repository.Upload error")
 		}
 		return nil
 	}
