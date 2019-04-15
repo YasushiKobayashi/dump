@@ -19,7 +19,7 @@ var baseFlag []cli.Flag = []cli.Flag{
 	cli.StringFlag{
 		Name:   "output, o",
 		Value:  "stdout",
-		EnvVar: "output",
+		EnvVar: "OUTPUT",
 		Usage:  "stdout, file, aws-s3, other-database",
 	},
 	cli.StringFlag{
