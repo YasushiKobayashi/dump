@@ -16,6 +16,8 @@ jobs:
       - run: go build -o dump main.go
       - run: $GOPATH/src/github.com/YasushiKobayashi/dump/dump
       - run: go vet ./...
-      - run: go test ./... -cover
+      - run: go test -cover -coverprofile=cover.out ./...
+      - run: go tool cover -html=cover.out -o cover.html
+      - run: cp cover.html $CIRCLE_TEST_ARTIFACTS
       - store_artifacts:
           path: /tmp/artifacts
