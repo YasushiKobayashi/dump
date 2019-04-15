@@ -1,0 +1,21 @@
+version: 2
+jobs:
+  build:
+    working_directory: /go/src/github.com/YasushiKobayashi/dump
+    docker:
+      - image: golang:1.10.1-alpine
+        environment:
+          ROOF_ENV: test
+          CIRCLE_TEST_ARTIFACTS: /tmp/artifacts
+    steps:
+      - checkout
+      - run: mkdir -p $CIRCLE_TEST_ARTIFACTS
+      - run: apk --no-cache add git
+      - run: go get -u github.com/golang/dep/cmd/dep
+      - run: dep ensure
+      - run: go build -o dump main.go
+      - run: $GOPATH/src/github.com/YasushiKobayashi/dump/dump
+      - run: go vet ./...
+      - run: go test ./... -cover
+      - store_artifacts:
+          path: /tmp/artifacts

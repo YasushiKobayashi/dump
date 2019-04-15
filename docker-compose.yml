@@ -1,0 +1,55 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - 3333:3306
+    hostname: db
+    volumes:
+      - "./mysql_data:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: "test"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+  local:
+    image: golang:1.10.1-alpine
+    links:
+      - db
+    depends_on:
+      - db
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_TABLE: ${DB_TABLE}
+
+      FILE_PATH: ${FILE_PATH}
+      FILE_NAME: ${FILE_NAME}
+    volumes:
+      - "./:/go/src/github.com/YasushiKobayashi/dump"
+    working_dir: /go/src/github.com/YasushiKobayashi/dump
+    command: go run dump.go local
+
+  s3:
+    image: golang:1.10.1-alpine
+    links:
+      - db
+    depends_on:
+      - db
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_TABLE: ${DB_TABLE}
+
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      S3_BECKET: ${S3_BECKET}
+
+      FILE_PATH: ${FILE_PATH}
+      FILE_NAME: ${FILE_NAME}
+    volumes:
+      - "./:/go/src/github.com/YasushiKobayashi/dump"
+    working_dir: /go/src/github.com/YasushiKobayashi/dump
+    command: go run dump.go aws
