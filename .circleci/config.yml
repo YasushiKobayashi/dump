@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: /go/src/github.com/YasushiKobayashi/dump
     docker:
-      - image: golang:1.10.1-alpine
+      - image: golang:1.11.2
         environment:
           ROOF_ENV: test
           CIRCLE_TEST_ARTIFACTS: /tmp/artifacts
