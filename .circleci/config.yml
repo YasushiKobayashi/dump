@@ -15,10 +15,8 @@ jobs:
       - run: go build -o dump main.go
       - run: $GOPATH/src/github.com/YasushiKobayashi/dump/dump
       - run: go vet ./...
-      - run: go test -cover -coverprofile=cover.out ./...
-      - run: go tool cover -html=cover.out -o cover.html
-      - run: touch coverage.txt
-      - run: cat cover.out >> coverage.txt
+      - run: go test -cover -coverprofile=coverage.txt -covermode=atomic ./...
+      - run: go tool cover -html=coverage.txt -o cover.html
       - run: bash <(curl -s https://codecov.io/bash)
       - run: cp cover.html $CIRCLE_TEST_ARTIFACTS
       - store_artifacts:
