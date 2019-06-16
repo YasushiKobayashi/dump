@@ -10,7 +10,6 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p $CIRCLE_TEST_ARTIFACTS
-      - run: apk --no-cache add git
       - run: go get -u github.com/golang/dep/cmd/dep
       - run: dep ensure
       - run: go build -o dump main.go
